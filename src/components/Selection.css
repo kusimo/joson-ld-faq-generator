@@ -1,0 +1,49 @@
+/* Options */
+ul.variations-checkbox {
+    list-style: none;
+    display: flex;
+    flex:1
+  }
+  .variations-checkbox li {
+    position: relative;
+    line-height: 2.4;
+    cursor: pointer;
+    margin-right: 50px;
+    font-size: 14px;
+  }
+  .variations-checkbox li:before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: -30px;
+    top: 6px;
+    background: #ffffff;
+    border: 1px solid #c6cacc;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: -1;
+  }
+  ul.variations-checkbox li>a {
+    text-decoration: none;
+    padding-left: 26px;
+    margin-left: -26px;
+  }
+  ul.variations-checkbox li.selected:before,
+  ul.variations-checkbox li>a.selected:before 
+  {
+    border-color: #2196f3;
+  }
+  ul.variations-checkbox li.selected:after,
+  ul.variations-checkbox li>a.selected:after
+   {
+    content: "";
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    left: -26px;
+    top: 10px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+  }
+  
