@@ -64,4 +64,80 @@ export const beaufityJson = (content, n = 3) => {
                      .replace(/\&/g, "\\&");
 }
 
+export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htmlIcon ='plus') => {
+  let total = obj.length;
   
+  switch (format) {
+    
+    // Generate the JsonLd FAQ Title & Content.
+    case 'jsonld':
+      let counter = 0;
+      let contentStart = `<script type="application/ld+json">`;
+      let content = `
+        {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [`;
+      obj.forEach(item => {
+        counter++;
+        
+        let question = item.question;
+        let answer = item.answer;
+
+        let obj = `
+          {
+            "@type": "Question",
+            "name": "${escapeSpecialChars(question)}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "${escapeSpecialChars(answer)}"
+            }
+          }`;
+        counter !== total ? content += obj + ',' : content += obj;
+
+      })
+      content += `]
+        }`;
+
+      let contentEnd = `
+      </script>`;
+
+      let result = contentStart + content + contentEnd ;
+
+      console.log('result', result);
+
+      
+      break;
+
+    case 'html':
+     
+      const faqContent = obj.map((item, i) => {
+        return `
+          <faq-tab classname="tab">
+              <div class="tab-wrapper">
+                  <input id="tab-${i}" type="checkbox" name="tabs">
+                  <label for="tab-${i}" class="h4 accordion-title faq-icon-${htmlIcon}">
+                      <span>${item.question}</span>
+                  </label>
+                  <div class="tab-content">
+                    ${item.answer}
+                  </div>
+              </div>
+          </faq-tab>`
+      })
+      
+      let htmlContent = `
+      <div class="faqContainer">
+        <div class="faq__accordion">
+            ${faqContent}
+        </div>
+      </div>
+      `;
+      console.log(htmlContent)
+
+      break;
+
+    default :
+    console.log('default')
+  } // End switch
+}

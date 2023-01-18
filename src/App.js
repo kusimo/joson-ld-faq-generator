@@ -1,5 +1,5 @@
 import './App.css';
-import { beaufityJson, updateHtml, escapeSpecialChars } from './Helper';
+import { beaufityJson, updateHtml, escapeSpecialChars, faqGenerator } from './Helper';
 import Selection from './components/Selection';
 import { useState, useEffect } from 'react';
 import Faq from './components/Faq';
@@ -29,7 +29,8 @@ function App() {
 
   const handleAddNewFaq = (value) => {
     setTasks(value);
-    console.log(tasks)
+    //console.log(tasks)
+    faqGenerator(value);
   }
 
 
@@ -80,10 +81,14 @@ function App() {
 
           let contentEnd = '</script>';
          
-         
+         /*
           minifyFaq ? textarea.value = contentStart + beaufityJson(content, 0) + contentEnd 
           :
           textarea.value = contentStart + beaufityJson(content, level) + contentEnd;
+          */
+          minifyFaq ? textarea.value = contentStart + content + contentEnd 
+          :
+          textarea.value = contentStart + content + contentEnd;
     
           
           break;
