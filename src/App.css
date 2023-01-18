@@ -1,14 +1,17 @@
 :root {
   --primary-color: #2487ea;
 }
+
 .App {
   text-align: left;
   padding: 15px;
 }
+
 .AppWrapper {
   display: flex;
   flex-direction: column;
 }
+
 faq-tab {
   position: relative;
 }
@@ -20,12 +23,14 @@ faq-tab {
 }
 
 @media (min-width:768px) {
-  .AppWrapper  {
+  .AppWrapper {
     flex-direction: row;
   }
+
   .faqContainer {
     width: 60%;
   }
+
   .jsonContainer {
     width: 40%;
     padding: 15px;
@@ -57,15 +62,21 @@ faq-tab label {
   position: relative;
   display: block;
   padding: 20px;
-  margin-bottom: 5px;
+  margin-bottom: 0px;
   line-height: normal;
   cursor: pointer;
   border-top: 1px solid #ececec;
   color: #000000;
 }
+
+.faq__accordion {
+  margin: 1rem 0;
+}
+
 .faq__accordion label.first {
   border-top: none
 }
+
 faq-tab label::before {
   position: absolute;
   content: "+";
@@ -78,7 +89,7 @@ faq-tab label::before {
   padding: 0 5px;
 }
 
-faq-tab input:checked ~  label::before {
+faq-tab input:checked~label::before {
   /* transform: translateY(-50%) rotate(45deg) scale(1.3); */
   content: "-";
 }
@@ -92,9 +103,11 @@ faq-tab .accordion-title span {
   overflow: hidden;
   transition: max-height .35s;
 }
-faq-tab  input:checked ~ .tab-content {
+
+faq-tab input:checked~.tab-content {
   max-height: none;
 }
+
 faq-tab p {
   margin: 0 0 15px;
 }
@@ -107,9 +120,9 @@ faq-tab p {
 
 .add-new {
   display: flex;
-  width:100%;
+  width: 100%;
   gap: 5px;
-  background-color:#FFF;
+  background-color: #FFF;
   border: 1px solid gainsboro;
   border-radius: 5px;
   justify-content: center;
@@ -118,6 +131,7 @@ faq-tab p {
   cursor: pointer;
   max-width: calc(100% - 110px);
 }
+
 .add-new:hover {
   color: var(--primary-color)
 }
@@ -127,10 +141,13 @@ faq-tab p {
   top: 0;
   display: flex;
   gap: 15px;
-  top: 25%;
+  top: 0;
   right: 0;
   max-width: 100px;
+  height: 100%;
+  align-items: center;
 }
+
 .user-actions button {
   border: 1px solid gainsboro;
   background-color: transparent;
@@ -139,20 +156,25 @@ faq-tab p {
   width: 40px;
   border-radius: 5px;
 }
-.user-actions button + button {
+
+.user-actions button+button.drag-btn {
   cursor: grab
 }
+
 .user-actions button>svg {
   width: 1.0625rem;
-    height: 1.0625rem;
-    fill: #333;
-    -webkit-transition: .2s;
-    transition: .2s;
+  height: 1.0625rem;
+  fill: #333;
+  -webkit-transition: .2s;
+  transition: .2s;
 }
 
-faq-tab  input:checked ~ .tab-content {
+faq-tab input:checked~.tab-content {
   padding-right: 110px;
+  padding-left: 30px;
+  padding-bottom: 9px;
 }
+
 faq-tab::after {
   content: "";
   width: 1px;
@@ -171,19 +193,23 @@ faq-tab::after {
   display: flex;
   gap: 9px;
 }
+
 .ToggleSwitch.ToggleSwitch__rounded .Slider {
   border-radius: 15rem;
   background: #eceff1;
   border: 1px solid #A0A0A0;
 }
+
 .ToggleSwitch.ToggleSwitch__rounded .Slider:before {
   border-radius: 50%;
 }
+
 .ToggleSwitch .ToggleSwitch__wrapper {
   position: relative;
   width: 3rem;
   height: 1.35rem;
 }
+
 .ToggleSwitch .ToggleSwitch__wrapper .Slider {
   position: absolute;
   cursor: pointer;
@@ -193,6 +219,7 @@ faq-tab::after {
   bottom: 0;
   transition: 0.4s ease;
 }
+
 .ToggleSwitch .ToggleSwitch__wrapper .Slider:before {
   width: 1.30rem;
   height: 1.30rem;
@@ -208,19 +235,118 @@ faq-tab::after {
   cursor: pointer;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
+
 .ToggleSwitch .ToggleSwitch__wrapper .Slider.isChecked {
   background: #fff;
 }
+
 .ToggleSwitch .ToggleSwitch__wrapper .Slider.isChecked:before {
   left: calc(100% - 0.10rem - 1.245rem);
   background: var(--primary-color);
 }
+
 .ToggleSwitch span.ToggleSwitch__title {
-  min-width:60px;
+  min-width: 60px;
   font-size: 14px;
 }
 
 .user-action-bottom {
   display: flex;
   align-items: center;
+}
+
+/* Add Faq Element */
+
+.container {
+  margin-top: 0;
+}
+
+.container .input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.container label {
+  display: block;
+  margin-bottom: 10px
+}
+
+.container input,
+.container textarea {
+  margin-bottom: 12px;
+  border: 1px solid gainsboro;
+  min-height: 2rem;
+  ;
+}
+
+.editing-tab-wrapper {
+  display: block;
+  z-index: 1;
+  position: relative;
+  padding: 1rem 0;
+  background: #ebebeb;
+  border-bottom: 1px solid gainsboro;
+  padding-left: 1rem;
+}
+
+.container input,
+.container textarea {
+  padding: 4px 11px;
+  color: rgba(0, 0, 0, .65);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+.button-wrapper {
+  min-width: 30%;
+  justify-content: end;
+  height: 100%;
+  align-items: center;
+  top: 0;
+}
+
+.button-wrapper button {
+  border: 1px solid transparent;
+  background-color: transparent;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+}
+
+.button-wrapper button.drag-btn {
+  height: 100%;
+  background-color: gainsboro;
+  border-radius: 0;
+  border-bottom: 1px solid #cecece;
+}
+
+.button-wrapper button svg {
+  width: 30px;
+  height: 30px;
+}
+
+.button-wrapper button svg.ok-button path {
+  fill: var(--primary-color)
+}
+
+.editing-content {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.editing-content::after {
+  content: "";
+  width: 1px;
+  height: 100%;
+  background: gainsboro;
+  position: absolute;
+  right: 110px;
+  top: 0;
+}
+
+@media (min-width:768px) {
+  .editing-content {
+    width: 70%;
+  }
 }

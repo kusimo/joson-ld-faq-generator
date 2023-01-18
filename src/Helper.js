@@ -1,8 +1,10 @@
+
 export const TestingHelper = () => {
     console.log('helper');
 }
 
 export const beaufityJson = (content, n = 3) => {
+  
     return JSON.stringify(JSON.parse(content), null, n)
   }
 
@@ -51,5 +53,15 @@ export const beaufityJson = (content, n = 3) => {
 
           textarea.value = minify ? htmlOutput : formatHtml(htmlOutput);
   }
+
+  export const escapeSpecialChars = (jsonString) => {
+    return jsonString.replace(/\n/g, "\\n")
+                     .replace(/\r/g, "\\r")
+                     .replace(/\t/g, "\\t")
+                     .replace(/\f/g, "\\f")
+                     .replace(/\"/g, "\\\"")
+                     .replace(/\'/g, "\\'")
+                     .replace(/\&/g, "\\&");
+}
 
   
