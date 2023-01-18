@@ -1,8 +1,13 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import AddFaq from "./AddFaq";
 import FaqList from "./FaqList";
 
-export default function Faq({handleAddNewFaq}) {
+export default function Faq({handleAddNewFaq, generate, level, format}) {
+
+  useEffect(() => {
+    handleAddNewFaq(tasks);
+    generate(format, 3); 
+  });
   
     const [tasks, dispatch] = useReducer(
       tasksReducer,
@@ -16,6 +21,7 @@ export default function Faq({handleAddNewFaq}) {
         question: question,
         answer: answer,
       });
+      handleAddNewFaq(tasks)
     }
   
     function handleChangeTask(task) {
@@ -23,6 +29,8 @@ export default function Faq({handleAddNewFaq}) {
         type: 'changed',
         task: task
       });
+
+      handleAddNewFaq(tasks);
     }
   
     function handleDeleteTask(taskId) {
@@ -30,7 +38,8 @@ export default function Faq({handleAddNewFaq}) {
         type: 'deleted',
         id: taskId
       });
-      
+      //generate(format, 3);
+      handleAddNewFaq(tasks);
     }
 
   

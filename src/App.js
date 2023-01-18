@@ -7,15 +7,14 @@ import Faq from './components/Faq';
 
 
 function App() {
-  let list = [];
 
   const [minifyFaq, setminifyFaq] = useState(false);
   const [minifyLevel, setMinifyLevel] = useState(minifyFaq ? 0 : 3);
   const [outputFormat, setOutputFormat] = useState('jsonld');
-  const [sortedList, setSortedList] = useState(list);
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    generateFaqOutput(outputFormat, minifyLevel);
+    generateFaqOutput(outputFormat, minifyLevel);    
   });
 
 
@@ -28,9 +27,9 @@ function App() {
     generateFaqOutput(value);
   }
 
-  const handleAddNewFaq = () => {
-   return outputFormat;
-    
+  const handleAddNewFaq = (value) => {
+    setTasks(value);
+    console.log(tasks)
   }
 
 
@@ -135,11 +134,11 @@ function App() {
     <div className="App">
       <div className='AppWrapper'>
         <div className='faqContainer'>
-          <Faq handleAddNewFaq={handleAddNewFaq} />
+          <Faq handleAddNewFaq={handleAddNewFaq} generate={generateFaqOutput}  level={minifyFaq} format={outputFormat} />
         </div>
         <div className='jsonContainer'>
           <div className='jsonContent'>
-            <textarea defaultValue='<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}</script>'>
+            <textarea spellCheck={false} defaultValue='<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}</script>'>
             </textarea>
           </div>
           <div className='user-action-bottom'>
