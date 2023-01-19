@@ -1,3 +1,145 @@
+const defaultStyles = `
+<style>
+faq-tab {
+  position: relative;
+}
+
+.tab {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin: 20px 0;
+}
+
+faq-tab input[type=checkbox] {
+  position: absolute;
+  opacity: 0;
+  z-index: -1;
+}
+
+faq-tab label {
+  position: relative;
+  display: block;
+  padding: 20px;
+  margin-bottom: 5px;
+  line-height: normal;
+  cursor: pointer;
+  border-top: 1px solid #ececec;
+  color: #000000;
+}
+.faq__accordion label.first {
+  border-top: none
+}
+faq-tab label::before {
+  position: absolute;
+  content: "+";
+  color: #F6AE2D;
+  left: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  transition: all .5s;
+  padding: 0 5px;
+}
+
+faq-tab input:checked ~  label::before {
+  /* transform: translateY(-50%) rotate(45deg) scale(1.3); */
+  content: "-";
+}
+
+faq-tab .accordion-title span {
+  margin-left: 12px;
+}
+
+.tab-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s;
+}
+faq-tab  input:checked ~ .tab-content {
+  max-height: none;
+}
+faq-tab p {
+  margin: 0 0 15px;
+}
+</style>
+`;
+
+const faqStyle = (navType, color="black") => {
+  let styles = `
+  <style>
+    faq-tab {
+      position: relative;
+    }
+    
+    .tab {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+    
+    faq-tab input[type=checkbox] {
+      position: absolute;
+      opacity: 0;
+      z-index: -1;
+    }
+    
+    faq-tab label {
+      position: relative;
+      display: block;
+      padding: 20px;
+      margin-bottom: 0px;
+      line-height: normal;
+      cursor: pointer;
+      border-top: 1px solid #ececec;
+      color: #000000;
+    }
+    
+    .faq__accordion {
+      margin: 1rem 0;
+    }
+    
+    .faq__accordion label.first {
+      border-top: none
+    }
+    
+    faq-tab label::before {
+      position: absolute;
+      content: "+";
+      color: ${color};
+      left: 0px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 28px;
+      transition: all .5s;
+      padding: 0 5px;
+    }
+    
+    faq-tab input:checked ~  label::before {
+      ${navType ==='arrow' ? 'transform: translateY(-50%) rotate(45deg) scale(1.3);' : '' }
+      content: "-";
+    }
+    
+    faq-tab .accordion-title span {
+      margin-left: 12px;
+    }
+    
+    .tab-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .35s;
+    }
+    
+    faq-tab input:checked~.tab-content {
+      max-height: none;
+      padding-bottom: 15px;
+      padding-left: 30px;
+    }
+  </style>
+  `
+  return styles;
+}
 
 export const TestingHelper = () => {
     console.log('helper');
@@ -141,6 +283,13 @@ export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htm
         faqInnerContent += objHTML;
       })
 
+      let style = faqStyle('arrow');
+      if (minify === true) {
+        style = removeWhitespaces(defaultStyles);
+        style = trimWhitespace(style);
+        style = collapseWhitespaceAll(style)
+      } 
+
       let htmlContentStart = `
       <div class="faqContainer">
         <div class="faq__accordion">`;
@@ -149,6 +298,7 @@ export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htm
         </div>
       </div>`;
       
+      
       let htmlContent = `${htmlContentStart} ${faqInnerContent} ${htmlContentEnd}`;
     
       if (minify === true) {
@@ -156,7 +306,7 @@ export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htm
         htmlContent = trimWhitespace(htmlContent);
         htmlContent = collapseWhitespaceAll(htmlContent)
       } 
-      data = htmlContent;
+      data = style +  htmlContent;
 
       break;
 

@@ -12,10 +12,6 @@
   flex-direction: column;
 }
 
-faq-tab {
-  position: relative;
-}
-
 .jsonContent {
   width: 100%;
   display: flex;
@@ -43,6 +39,12 @@ faq-tab {
   border-radius: 5px;
   border: 1px solid gainsboro;
   padding: 9px;
+}
+
+/* FAQ CSS */
+faq-tab {
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 .tab {
@@ -106,10 +108,8 @@ faq-tab .accordion-title span {
 
 faq-tab input:checked~.tab-content {
   max-height: none;
-}
-
-faq-tab p {
-  margin: 0 0 15px;
+  padding-bottom: 15px;
+  padding-left: 30px;
 }
 
 /* Below CSS
@@ -172,22 +172,6 @@ faq-tab p {
   fill: #333;
   -webkit-transition: .2s;
   transition: .2s;
-}
-
-faq-tab input:checked~.tab-content {
-  padding-right: 110px;
-  padding-left: 30px;
-  padding-bottom: 9px;
-}
-
-faq-tab::after {
-  content: "";
-  width: 1px;
-  height: 100%;
-  background: gainsboro;
-  position: absolute;
-  right: 110px;
-  top: 0;
 }
 
 /* Switch */

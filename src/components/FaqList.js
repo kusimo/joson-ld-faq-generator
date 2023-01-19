@@ -23,7 +23,7 @@ export default function FaqList({
 }
 
 function Task({ task, onChange, onDelete }) {
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   let taskContent;
   if (isEditing) {
     taskContent = (
