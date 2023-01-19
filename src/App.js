@@ -50,7 +50,6 @@ function App() {
 
   const handleAddNewFaq = (value) => {
     setTasks(value);
-    //console.log(tasks)
     faqGenerator(value);
   }
 
@@ -102,7 +101,10 @@ function App() {
     <div className="App">
       <div className='AppWrapper'>
         <div className='faqContainer'>
-          <Faq handleAddNewFaq={handleAddNewFaq} generate={generateFaqOutput} level={minifyFaq} format={outputFormat} />
+          <Faq 
+            handleAddNewFaq={handleAddNewFaq} 
+            format={outputFormat} 
+          />
         </div>
         <div className='jsonContainer'>
           <div className='jsonContent'>

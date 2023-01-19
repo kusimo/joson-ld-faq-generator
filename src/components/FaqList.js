@@ -3,27 +3,43 @@ import { useState } from 'react';
 export default function FaqList({
   tasks,
   onChangeTask,
-  onDeleteTask
+  onDeleteTask,
+  onDragStart,
+  onDragEnd,
+  onDragEnter,
+  onDragOver,
+  onDragLeave,
+  onDrop
 }) {
+
   return (
-    <div className='faq__accordion'>
+      <div className='faq__accordion'>
       {tasks.map(task => (
-        <faq-tab className='tab' key={task.id}>
-            
+        <faq-tab 
+          draggable='true' 
+          onDragStart={onDragStart} 
+          onDragEnter={onDragEnter}
+          onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
+          class='tab' 
+          id={`${task.id}`} 
+          key={task.id}>   
           <Task
             task={task}
             onChange={onChangeTask}
             onDelete={onDeleteTask}
-            classN='faq-wrapper'
           />
         </faq-tab>
-      ))}
+      ))}      
     </div>
+    
   );
 }
 
 function Task({ task, onChange, onDelete }) {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   let taskContent;
   if (isEditing) {
     taskContent = (

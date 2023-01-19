@@ -360,3 +360,8 @@ faq-tab input:checked~.tab-content {
     width: 70%;
   }
 }
+
+.over {
+  transform: scale(1.01);
+  border: 1px dashed #eee;
+}
