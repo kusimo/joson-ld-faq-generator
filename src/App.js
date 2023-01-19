@@ -17,24 +17,24 @@ function App() {
   const textareaRef = createRef();
 
   useEffect(() => {
-    generateFaqOutput(outputFormat, minifyLevel);  
+    generateFaqOutput(outputFormat, minifyLevel);
     setTextareaValue(textareaRef.current.value);
   });
 
   const handleBorderColor = () => {
     const currentElem = textareaRef.current;
-    setTimeout(function() {
+    setTimeout(function () {
       currentElem.style.border = "1px solid #FF9800";
       setCopied(true)
-   },100);
+    }, 100);
 
-   setTimeout(function() {
-    currentElem.style.border = "1px solid #cacaca";
-   }, 400);
+    setTimeout(function () {
+      currentElem.style.border = "1px solid #cacaca";
+    }, 400);
 
-   setTimeout(function() {
-    setCopied(false)
-   }, 1500);
+    setTimeout(function () {
+      setCopied(false)
+    }, 1500);
 
   }
 
@@ -55,19 +55,19 @@ function App() {
   }
 
 
-/**
- * 
- * @param {string} format 
- * @param {number} level 
- */
+  /**
+   * 
+   * @param {string} format 
+   * @param {number} level 
+   */
   const generateFaqOutput = (format, level = minifyLevel) => {
     setMinifyLevel(level);
     let textarea = document.querySelector('.jsonContent textarea');
 
-      textarea.value = faqGenerator(tasks, format, minifyFaq);
-      
-      textarea.style.height = 'inherit';
-      textarea.style.height = `${textarea.scrollHeight}px`; 
+    textarea.value = faqGenerator(tasks, format, minifyFaq);
+
+    textarea.style.height = 'inherit';
+    textarea.style.height = `${textarea.scrollHeight}px`;
 
   } // End function.
 
@@ -77,7 +77,7 @@ function App() {
     const onToggleSwitchChange = () => {
       setminifyFaq(!minifyFaq);
 
-      if(outputFormat === 'jsonld') {
+      if (outputFormat === 'jsonld') {
         generateFaqOutput('jsonld', minifyFaq);
       }
 
@@ -85,7 +85,7 @@ function App() {
         generateFaqOutput('html', minifyFaq);
       }
 
-      
+
     }
     return (
       <div className='ToggleSwitch ToggleSwitch__rounded'>
@@ -102,13 +102,13 @@ function App() {
     <div className="App">
       <div className='AppWrapper'>
         <div className='faqContainer'>
-          <Faq handleAddNewFaq={handleAddNewFaq} generate={generateFaqOutput}  level={minifyFaq} format={outputFormat} />
+          <Faq handleAddNewFaq={handleAddNewFaq} generate={generateFaqOutput} level={minifyFaq} format={outputFormat} />
         </div>
         <div className='jsonContainer'>
           <div className='jsonContent'>
-            <textarea 
-              spellCheck={false} 
-              disabled 
+            <textarea
+              spellCheck={false}
+              disabled
               ref={textareaRef}
               defaultValue='<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}</script>'>
             </textarea>
@@ -118,21 +118,21 @@ function App() {
               <CopyToClipboard text={textareaValue}
                 onCopy={() => handleBorderColor()}>
                 <button className="btn">
-                  <span>{copied ? 'Copied' : `Copy ${outputFormat ==='html'? 'HTML': 'FAQ Schema'}`}</span>
+                  <span>{copied ? 'Copied' : `Copy ${outputFormat === 'html' ? 'HTML' : 'FAQ Schema'}`}</span>
                 </button>
               </CopyToClipboard>
               {outputFormat === 'jsonld' ? (
                 <button className='btn'>
-                <span>Test in SDTT</span>
-              </button>
-              ) : 
-              (
-                <button className='btn'>
-                  <span>Preview HTML</span>
-              </button>
-              )
-            }
-            
+                  <span>Test in SDTT</span>
+                </button>
+              ) :
+                (
+                  <button className='btn'>
+                    <span>Preview HTML</span>
+                  </button>
+                )
+              }
+
             </div>
             <div className='user-action-bottom'>
               <Selection getCurrentFormat={getCurrentFormat} handleOutput={handleOutput} />
@@ -141,7 +141,7 @@ function App() {
           </div>
         </div>
       </div>
-     
+
     </div>
   );
 }

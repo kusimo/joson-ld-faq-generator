@@ -86,15 +86,19 @@ export default function Faq({handleAddNewFaq, generate, level, format}) {
     }
   }
   
-  let nextId = 1; //let nextId = 3;
-  /*
+
+  
+  let nextId = 3;
   const initialTasks = [
     { id: 0, question: 'Visit " Kafka Museum', answer: 'test 1',  done: true },
     { id: 1, question: 'Watch a puppet show', answer: 'test 2', done: false },
     { id: 2, question: 'Lennon Wall pic', answer: 'test 3', done: false }
   ];
-  */
+  
+ /*
+ let nextId = 1;
   const initialTasks = [
     { id: 0, question: '', answer: '',  done: false }
   ];
+  */
   

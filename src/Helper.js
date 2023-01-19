@@ -90,7 +90,7 @@ export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htm
         let question = item.question;
         let answer = item.answer;
 
-        let obj = `
+        let output = `
           {
             "@type": "Question",
             "name": "${escapeSpecialChars(question)}",
@@ -99,7 +99,7 @@ export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htm
               "text": "${escapeSpecialChars(answer)}"
             }
           }`;
-        counter !== total ? content += obj + ',' : content += obj;
+        counter !== total ? content += output + ',' : content += output;
 
       })
       content += `]
@@ -120,29 +120,36 @@ export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htm
       break;
 
     case 'html':
-     
-      const faqContent = obj.map((item, i) => {
-        return `
-          <faq-tab classname="tab">
-              <div class="tab-wrapper">
-                  <input id="tab-${i}" type="checkbox" name="tabs">
-                  <label for="tab-${i}" class="h4 accordion-title faq-icon-${htmlIcon}">
-                      <span>${item.question}</span>
-                  </label>
-                  <div class="tab-content">
-                    ${item.answer}
-                  </div>
+      let fabCounter = 0;
+      let faqInnerContent = '';
+
+      obj.forEach(item => {
+        fabCounter++;
+        
+        let objHTML = `
+        <faq-tab classname="tab">
+          <div class="tab-wrapper">
+              <input id="tab-${fabCounter}" type="checkbox" name="tabs">
+              <label for="tab-${fabCounter}" class="h4 accordion-title faq-icon-${htmlIcon}">
+                  <span>${item.question}</span>
+              </label>
+              <div class="tab-content">
+                ${item.answer}
               </div>
-          </faq-tab>`
+          </div>
+        </faq-tab>`;
+        faqInnerContent += objHTML;
       })
-      
-      let htmlContent = `
+
+      let htmlContentStart = `
       <div class="faqContainer">
-        <div class="faq__accordion">
-            ${faqContent}
+        <div class="faq__accordion">`;
+
+      let htmlContentEnd = `
         </div>
-      </div>
-      `;
+      </div>`;
+      
+      let htmlContent = `${htmlContentStart} ${faqInnerContent} ${htmlContentEnd}`;
     
       if (minify === true) {
         htmlContent = removeWhitespaces(htmlContent);
