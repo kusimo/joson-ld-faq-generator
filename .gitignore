@@ -1,3 +1,4 @@
 node_modules
 package-lock.json
 public/result.html
+src/components/JsonLd.js

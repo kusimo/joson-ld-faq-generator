@@ -28,6 +28,10 @@ export const beaufityJson = (content, n = 3) => {
     return result.substring(1, result.length - 3);
   }
 
+  export const minifyHtml = (html) => {
+    html.replace(/\n|\t/g, ' ');
+  }
+
   export const removeElement = (elem) => {
     if (elem.length > 0)
       elem.forEach(e => {
@@ -66,13 +70,15 @@ export const beaufityJson = (content, n = 3) => {
 
 export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htmlIcon ='plus') => {
   let total = obj.length;
+  let data = ``;
   
   switch (format) {
     
     // Generate the JsonLd FAQ Title & Content.
     case 'jsonld':
       let counter = 0;
-      let contentStart = `<script type="application/ld+json">`;
+      let contentStart = `
+      <script type="application/ld+json">`;
       let content = `
         {
           "@context": "https://schema.org",
@@ -100,11 +106,15 @@ export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htm
         }`;
 
       let contentEnd = `
-      </script>`;
+      </script>
+      `;
 
       let result = contentStart + content + contentEnd ;
 
-      console.log('result', result);
+      if(minify === true) {
+        result = minifyJS(result);
+      }
+      data = result;
 
       
       break;
@@ -133,11 +143,43 @@ export const faqGenerator = (obj, format='html', minify=false, htmlStyle='', htm
         </div>
       </div>
       `;
-      console.log(htmlContent)
+    
+      if (minify === true) {
+        htmlContent = removeWhitespaces(htmlContent);
+        htmlContent = trimWhitespace(htmlContent);
+        htmlContent = collapseWhitespaceAll(htmlContent)
+      } 
+      data = htmlContent;
 
       break;
 
     default :
     console.log('default')
   } // End switch
+
+  return data;
+}
+
+function trimWhitespace(str) {
+  return str && str.replace(/^[ \n\r\t\f]+/, '').replace(/[ \n\r\t\f]+$/, '');
+}
+
+function collapseWhitespaceAll(str) {
+  // Non-breaking space is specifically handled inside the replacer function here:
+  return str && str.replace(/[ \n\r\t\f\xA0]+/g, function(spaces) {
+    return spaces === '\t' ? '\t' : spaces.replace(/(^|\xA0+)[^\xA0]+/g, '$1 ');
+  });
+}
+
+function removeWhitespaces(html) {
+  return html.replace(/\s+/g, ' ')
+             .replace(/>\s</g, '><')
+             .replace(/</g, '<')
+             .replace(/>/g, '>');
+}
+
+function minifyJS(js) {
+  return js.replace(/\s+/g, '')
+           .replace(/\/\*.*\*\//g, '')
+           .replace(/[\r\n]/g, '');
 }

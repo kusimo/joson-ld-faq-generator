@@ -136,6 +136,11 @@ faq-tab p {
   color: var(--primary-color)
 }
 
+.user-actions-wrapper {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .user-actions {
   position: absolute;
   top: 0;
@@ -250,12 +255,33 @@ faq-tab::after {
   font-size: 14px;
 }
 
-.user-action-bottom {
+.user-action-bottom, .user-action-top {
   display: flex;
   align-items: center;
 }
 
+.user-action-top {
+  gap: 15px;
+  justify-content: center;
+}
+
+.user-action-top .btn {
+  display: flex;
+  width: 100%;
+  gap: 5px;
+  background-color: #FFF;
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+  justify-content: center;
+  padding: 5px 15px;
+  margin: 1rem 0;
+  cursor: pointer;
+}
+
 /* Add Faq Element */
+.QA .container {
+  display: none;
+}
 
 .container {
   margin-top: 0;

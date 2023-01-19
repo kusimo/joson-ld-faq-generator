@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-export default function AddFaq({ onAddTask }) {
+export default function AddFaq({ onAddTask, tasks }) {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
+  
   return (
     <div className="QA">
        
@@ -33,7 +34,7 @@ export default function AddFaq({ onAddTask }) {
         onAddTask(question, answer);
       }}>
         <span className='icon-plus'>+</span>
-        <span>Add (another) FAQ</span>
+        <span>Add {tasks.length > 0 ? 'another': ''} FAQ</span>
       </button>
     </div>
   )

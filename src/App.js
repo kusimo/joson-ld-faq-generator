@@ -1,9 +1,9 @@
 import './App.css';
-import { beaufityJson, updateHtml, escapeSpecialChars, faqGenerator } from './Helper';
+import { faqGenerator } from './Helper';
 import Selection from './components/Selection';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createRef } from 'react';
 import Faq from './components/Faq';
-
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
 function App() {
@@ -12,10 +12,31 @@ function App() {
   const [minifyLevel, setMinifyLevel] = useState(minifyFaq ? 0 : 3);
   const [outputFormat, setOutputFormat] = useState('jsonld');
   const [tasks, setTasks] = useState([]);
+  const [textareaValue, setTextareaValue] = useState(null);
+  const [copied, setCopied] = useState(false);
+  const textareaRef = createRef();
 
   useEffect(() => {
-    generateFaqOutput(outputFormat, minifyLevel);    
+    generateFaqOutput(outputFormat, minifyLevel);  
+    setTextareaValue(textareaRef.current.value);
   });
+
+  const handleBorderColor = () => {
+    const currentElem = textareaRef.current;
+    setTimeout(function() {
+      currentElem.style.border = "1px solid #FF9800";
+      setCopied(true)
+   },100);
+
+   setTimeout(function() {
+    currentElem.style.border = "1px solid #cacaca";
+   }, 400);
+
+   setTimeout(function() {
+    setCopied(false)
+   }, 1500);
+
+  }
 
 
   const getCurrentFormat = (f) => {
@@ -41,68 +62,12 @@ function App() {
  */
   const generateFaqOutput = (format, level = minifyLevel) => {
     setMinifyLevel(level);
-    let tabs = document.querySelectorAll('.tab-wrapper');
     let textarea = document.querySelector('.jsonContent textarea');
-    let faqsQ = document.querySelectorAll('.accordion-title span');
-    let faqsA = document.querySelectorAll('.tab-content');
 
-    if (faqsQ.length > 0 && faqsA.length > 0) {
-      switch (format) {
-        // Generate the JsonLd FAQ Title & Content.
-        case 'jsonld':
-          let counter = 0;
-          let contentStart = `<script type="application/ld+json">`;
-          let content = `
-            {
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": [`;
-          tabs.forEach(item => {
-            counter++;
-            let header = item.querySelector('.accordion-title span');
-            let question = item.querySelector('.tab-content');
-            let faqHeader = escapeSpecialChars(header.innerHTML);
-            let faqBody = escapeSpecialChars(question.innerHTML);
-
-            let obj = `
-              {
-                "@type": "Question",
-                "name": "${faqHeader}",
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": "${faqBody}"
-                }
-              }`;
-            counter !== tabs.length ? content += obj + ',' : content += obj;
-
-          })
-          content += `]
-            }`;
-
-          let contentEnd = '</script>';
-         
-         /*
-          minifyFaq ? textarea.value = contentStart + beaufityJson(content, 0) + contentEnd 
-          :
-          textarea.value = contentStart + beaufityJson(content, level) + contentEnd;
-          */
-          minifyFaq ? textarea.value = contentStart + content + contentEnd 
-          :
-          textarea.value = contentStart + content + contentEnd;
-    
-          
-          break;
-
-        case 'html':
-          updateHtml(textarea, minifyFaq);
-
-          break;
-
-        default :
-        updateHtml(textarea, minifyFaq);
-      } // End switch
-
-    } // End If
+      textarea.value = faqGenerator(tasks, format, minifyFaq);
+      
+      textarea.style.height = 'inherit';
+      textarea.style.height = `${textarea.scrollHeight}px`; 
 
   } // End function.
 
@@ -112,14 +77,12 @@ function App() {
     const onToggleSwitchChange = () => {
       setminifyFaq(!minifyFaq);
 
-      let level = minifyFaq === false ? 0 : 3;
       if(outputFormat === 'jsonld') {
-        generateFaqOutput('jsonld', level);
+        generateFaqOutput('jsonld', minifyFaq);
       }
 
       if (outputFormat === 'html') {
-        let textarea = document.querySelector('.jsonContent textarea');
-        updateHtml(textarea, minifyFaq);
+        generateFaqOutput('html', minifyFaq);
       }
 
       
@@ -143,12 +106,38 @@ function App() {
         </div>
         <div className='jsonContainer'>
           <div className='jsonContent'>
-            <textarea spellCheck={false} defaultValue='<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}</script>'>
+            <textarea 
+              spellCheck={false} 
+              disabled 
+              ref={textareaRef}
+              defaultValue='<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}</script>'>
             </textarea>
           </div>
-          <div className='user-action-bottom'>
-            <Selection getCurrentFormat={getCurrentFormat} handleOutput={handleOutput} />
-            <ToggleSwitch title={minifyFaq ? 'Minify(ON)' : 'Minify(OFF)'} />
+          <div className='user-actions-wrapper'>
+            <div className='user-action-top'>
+              <CopyToClipboard text={textareaValue}
+                onCopy={() => handleBorderColor()}>
+                <button className="btn">
+                  <span>{copied ? 'Copied' : `Copy ${outputFormat ==='html'? 'HTML': 'FAQ Schema'}`}</span>
+                </button>
+              </CopyToClipboard>
+              {outputFormat === 'jsonld' ? (
+                <button className='btn'>
+                <span>Test in SDTT</span>
+              </button>
+              ) : 
+              (
+                <button className='btn'>
+                  <span>Preview HTML</span>
+              </button>
+              )
+            }
+            
+            </div>
+            <div className='user-action-bottom'>
+              <Selection getCurrentFormat={getCurrentFormat} handleOutput={handleOutput} />
+              <ToggleSwitch title={minifyFaq ? 'Minify(ON)' : 'Minify(OFF)'} />
+            </div>
           </div>
         </div>
       </div>
