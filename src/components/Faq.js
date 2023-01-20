@@ -81,14 +81,19 @@ export default function Faq({handleAddNewFaq, generate, level, format}) {
       ev.dataTransfer.dropEffect = 'move' 
     }
 
+    function arraymove(arr, fromIndex, toIndex) {
+      var element = arr[fromIndex];
+      arr.splice(fromIndex, 1);
+      arr.splice(toIndex, 0, element);
+      return arr;
+    }
+
     const handleDrop = (event) => {
       event.stopPropagation();
      
       let targetElement = event.target.closest('faq-tab');
 
       if (sourceElement !== event.target) {
-        console.log( 'source: ', sourceElement);
-       
         
         /* remove dragged item from list */
         const list = tasks.filter((item, i) => 
@@ -101,40 +106,34 @@ export default function Faq({handleAddNewFaq, generate, level, format}) {
         /* insert removed item after this number. */
         let insertAt = Number(targetElement.id)
 
+        
+
         console.log('list with item removed', list)
-        console.log('removed:  line', removed)
         console.log('insertAt index', insertAt)
+        console.log('removed:  line', removed)
+        console.log('source', sourceElement.id)
 
-        let tempList = []
+        // Find index of the drag
+        const filteredTasks = tasks
+        .filter((task, index) => 
+          task.id.toString() === sourceElement.id);
+        const fromIndex = tasks.indexOf(filteredTasks[0]);
+        console.log('from', fromIndex);
 
-      /* if dropped at last item, don't increase target id by +1. 
-        max-index is arr.length */
-          if (insertAt >= list.length) {
-            tempList = list.slice(0).concat(removed);
-            console.log('New slice', tempList)
-            handleDragTask(tempList)
-            //handleChangeTask(tempList)
-            
-            targetElement.classList.remove('over')
-          }  else
-          if ((insertAt < list.length)) {
-          /* original list without removed item until the index it was removed at */
-            tempList = list.slice(0,insertAt).concat(removed)
-          
-            console.log('tempList', tempList)
-            console.log('insert the rest: ', list.slice(insertAt))
-          
-            /* add the remaining items to the list */
-            const newList = tempList.concat(list.slice(
-              insertAt))
-            console.log('newList', newList)
-          
-            /* set state to display on page */
-            //setSortedList(newList)
-            handleDragTask(newList)
-            
-            targetElement.classList.remove('over')
-          }
+        // Find index of the drop
+        const filteredTasksTo = tasks
+        .filter((task, index) => 
+          task.id.toString() === targetElement.id);
+        const toIndex = tasks.indexOf(filteredTasksTo[0]);
+        console.log('To', toIndex);
+       
+        let newArray = [...tasks];
+        const myData = arraymove(newArray, fromIndex, toIndex);
+
+        console.log('Final', myData)
+        // Set new state.
+        handleDragTask(myData)
+
 
       } else {
         console.log('nothing happened')
@@ -199,9 +198,9 @@ export default function Faq({handleAddNewFaq, generate, level, format}) {
   
   let nextId = 3;
   const initialTasks = [
-    { id: 0, question: 'Visit " Kafka Museum', answer: 'test 1',  done: true },
-    { id: 1, question: 'Watch a puppet show', answer: 'test 2', done: false },
-    { id: 2, question: 'Lennon Wall pic', answer: 'test 3', done: false }
+    { id: 0, question: 'Where is Lagos', answer: 'Nigeria',  done: true },
+    { id: 1, question: 'Where is Barcelona', answer: 'Spain', done: false },
+    { id: 2, question: 'Where is Manchester', answer: 'in the UK', done: false }
   ];
   
  /*
