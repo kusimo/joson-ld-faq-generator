@@ -8,7 +8,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 function App() {
 
-  const [minifyFaq, setminifyFaq] = useState(false);
+  const [minifyFaq, setminifyFaq] = useState(true);
   const [minifyLevel, setMinifyLevel] = useState(minifyFaq ? 0 : 3);
   const [outputFormat, setOutputFormat] = useState('jsonld');
   const [tasks, setTasks] = useState([]);
@@ -124,7 +124,7 @@ function App() {
                 </button>
               </CopyToClipboard>
               {outputFormat === 'jsonld' ? (
-                <button className='btn'>
+                <button className='btn' onClick={() => window.open('https://developers.google.com/search/docs/appearance/structured-data', '_blank')}>
                   <span>Test in SDTT</span>
                 </button>
               ) :

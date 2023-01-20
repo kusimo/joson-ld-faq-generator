@@ -62,11 +62,9 @@ export default function Faq({handleAddNewFaq, generate, level, format}) {
 
     function handleDragEnd(ev) {
       ev.target.style.opacity = '1';
-      console.log('-------------------------------------------------------------')
     }
 
     function handleDragEnter(ev) {
-      console.log('dragenter', ev.target)
       let targetElement = ev.target.closest('faq-tab')
       targetElement.classList.add('over');
     }
@@ -94,49 +92,25 @@ export default function Faq({handleAddNewFaq, generate, level, format}) {
       let targetElement = event.target.closest('faq-tab');
 
       if (sourceElement !== event.target) {
-        
-        /* remove dragged item from list */
-        const list = tasks.filter((item, i) => 
-          i.toString() !== sourceElement.id)
-
-        /* this is the removed item */
-        const removed = tasks.filter((item, i) => 
-        i.toString() === sourceElement.id)[0]
-
-        /* insert removed item after this number. */
-        let insertAt = Number(targetElement.id)
-
-        
-
-        console.log('list with item removed', list)
-        console.log('insertAt index', insertAt)
-        console.log('removed:  line', removed)
-        console.log('source', sourceElement.id)
 
         // Find index of the drag
         const filteredTasks = tasks
         .filter((task, index) => 
           task.id.toString() === sourceElement.id);
         const fromIndex = tasks.indexOf(filteredTasks[0]);
-        console.log('from', fromIndex);
-
+       
         // Find index of the drop
         const filteredTasksTo = tasks
         .filter((task, index) => 
           task.id.toString() === targetElement.id);
         const toIndex = tasks.indexOf(filteredTasksTo[0]);
-        console.log('To', toIndex);
-       
+      
         let newArray = [...tasks];
         const myData = arraymove(newArray, fromIndex, toIndex);
-
-        console.log('Final', myData)
         // Set new state.
         handleDragTask(myData)
 
-
       } else {
-        console.log('nothing happened')
         targetElement.classList.remove('over') 
       }
     }
@@ -195,18 +169,18 @@ export default function Faq({handleAddNewFaq, generate, level, format}) {
   }
   
 
-  
+//*
   let nextId = 3;
   const initialTasks = [
     { id: 0, question: 'Where is Lagos', answer: 'Nigeria',  done: true },
     { id: 1, question: 'Where is Barcelona', answer: 'Spain', done: false },
     { id: 2, question: 'Where is Manchester', answer: 'in the UK', done: false }
   ];
-  
+//*/
  /*
  let nextId = 1;
   const initialTasks = [
     { id: 0, question: '', answer: '',  done: false }
   ];
-  */
+/*/
   
