@@ -7,3 +7,4 @@ module.exports = function override(config, env) {
 config.optimization.runtimeChunk = false;
   return config;
 }
+/* This settings is for the react-app-rewired */
