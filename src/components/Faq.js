@@ -169,18 +169,18 @@ export default function Faq({handleAddNewFaq, generate, level, format}) {
   }
   
 
-//*
+/*
   let nextId = 3;
   const initialTasks = [
     { id: 0, question: 'Where is Lagos', answer: 'Nigeria',  done: true },
     { id: 1, question: 'Where is Barcelona', answer: 'Spain', done: false },
     { id: 2, question: 'Where is Manchester', answer: 'in the UK', done: false }
   ];
-//*/
- /*
+*/
+ //*
  let nextId = 1;
   const initialTasks = [
     { id: 0, question: '', answer: '',  done: false }
   ];
-/*/
+//*/
   

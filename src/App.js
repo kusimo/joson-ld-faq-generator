@@ -101,6 +101,7 @@ function App() {
     <div className="App">
       <div className='AppWrapper'>
         <div className='faqContainer'>
+          <div className='label-title'>FAQs</div>
           <Faq 
             handleAddNewFaq={handleAddNewFaq} 
             format={outputFormat} 
@@ -108,10 +109,12 @@ function App() {
         </div>
         <div className='jsonContainer'>
           <div className='jsonContent'>
+            <label id='json-ld-faq-schema' htmlFor='result-output'>JSON-LD FAQ Schema Code</label>
             <textarea
               spellCheck={false}
               disabled
               ref={textareaRef}
+              id="result-output"
               defaultValue='<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}</script>'>
             </textarea>
           </div>
@@ -124,12 +127,12 @@ function App() {
                 </button>
               </CopyToClipboard>
               {outputFormat === 'jsonld' ? (
-                <button className='btn' onClick={() => window.open('https://developers.google.com/search/docs/appearance/structured-data', '_blank')}>
+                <button className='btn' onClick={() => window.open('https://validator.schema.org/', '_blank')}>
                   <span>Test in SDTT</span>
                 </button>
               ) :
                 (
-                  <button className='btn'>
+                  <button className='btn disabled' disabled>
                     <span>Preview HTML</span>
                   </button>
                 )

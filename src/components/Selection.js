@@ -22,7 +22,7 @@ const Selection = ({getCurrentFormat, handleOutput}) => {
   const NavLink = ({ id, tabTitle, isActive, onClick }) => {
     return (
       <a
-        href="#"
+        href="#json-ld-faq-schema"
         onClick={() => navigate(id)}
         className={isActive ? "selected" : ""}
       >

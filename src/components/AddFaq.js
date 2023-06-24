@@ -7,7 +7,7 @@ export default function AddFaq({ onAddTask, tasks }) {
   return (
     <div className="QA">
        
-      <div className="container">
+      <div className="json-ld-container">
           <div className='input-wrapper'>
               <label htmlFor="QA__question">Faq question</label>
               <input
@@ -34,7 +34,7 @@ export default function AddFaq({ onAddTask, tasks }) {
         onAddTask(question, answer);
       }}>
         <span className='icon-plus'>+</span>
-        <span>Add {tasks.length > 0 ? 'another': ''} FAQ</span>
+        <span>Add {tasks.length > 0 ? 'another': ''} Question</span>
       </button>
     </div>
   )
